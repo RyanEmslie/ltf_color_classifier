@@ -1,0 +1,66 @@
+html,
+body {
+  height: 100%;
+}
+
+h2 {
+  margin: 0;
+  display: flex;
+
+  /* This centers our sketch horizontally. */
+  justify-content: center;
+
+  /* This centers our sketch vertically. */
+  align-items: center;
+}
+
+/* canvas {
+  background-color: black;
+  background: radial-linear(90deg, rgba(0, 0, 0, 0.8) 0%, rgba(255, 255, 255, 0.5) 255%);
+} */
+progress[value] {
+  width: 600px;
+  height: 20px;
+}
+
+button {
+  width: 20px;
+  height: 20px;
+  margin: 16px 10px;
+}
+
+button.red {
+  background-color: red;
+}
+button.green {
+  background-color: green;
+}
+button.blue {
+  background-color: blue;
+}
+button.orange {
+  background-color: orange;
+}
+button.yellow {
+  background-color: yellow;
+}
+button.pink {
+  background-color: pink;
+}
+button.purple {
+  background-color: purple;
+}
+button.brown {
+  background-color: rgb(101, 67, 33);
+}
+button.grey {
+  background-color: grey;
+}
+
+.hidden {
+  display: none;
+}
+
+ul li {
+  display: inline;
+}

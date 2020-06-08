@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8" />
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <link rel="stylesheet" href="main.css">
+        <script src="./p5.js"></script>
+        <script
+                src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
+        <script
+                src="https://www.gstatic.com/firebasejs/7.14.5/firebase-auth.js"></script>
+        <script
+                src="https://www.gstatic.com/firebasejs/7.14.5/firebase-database.js"></script>
+        <script src="database.js"></script>
+
+        <title>Color Classifier</title>
+</head>
+
+<body>
+        <nav>
+                <ul>
+                        <li><a href="index.html">Input Data</a></li>
+                        <li><a href="viewData.html">View Data</a></li>
+                </ul>
+        </nav>
+        <section>
+                <div id="sketchBox"></div>
+        </section>
+        <section>
+                <div id='infoMessage'></div>
+
+                <div class="buttons">
+                        <button class="red" value='red-ish'
+                                onclick="sendData(event)"></button>
+                        <button class="green" value='green-ish'
+                                onclick="sendData(event)"></button>
+                        <button class="blue" value='blue-ish'
+                                onclick="sendData(event)"></button>
+                        <button class="orange" value='orange-ish'
+                                onclick="sendData(event)"></button>
+                        <button class="yellow" value='yellow-ish'
+                                onclick="sendData(event)"></button>
+                </div>
+                <div class="buttons">
+                        <button class="pink" value='pink-ish'
+                                onclick="sendData(event)"></button>
+                        <button class=" purple" value='purple-ish'
+                                onclick="sendData(event)"></button>
+                        <button class="brown" value='brown-ish'
+                                onclick="sendData(event)"></button>
+                        <button class="grey" value='grey-ish'
+                                onclick="sendData(event)"></button>
+                </div>
+        </section>
+
+</body>
+
+</html>
