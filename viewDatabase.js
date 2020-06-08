@@ -1,39 +1,16 @@
 // Global variables
-let myDB;
-let authPromise;
 let resolution = 20;
 let retrievedData = [];
 let colArr = [];
 let rowArr = [];
 
 //!
-// Connect to firebase
-function preload() {
-  var firebaseConfig = {
-    apiKey: "AIzaSyBItUIaPm0UGDGkn-ZuyyzaJPxM0XigaSg",
-    authDomain: "color-classifier-e9d72.firebaseapp.com",
-    databaseURL: "https://color-classifier-e9d72.firebaseio.com",
-    projectId: "color-classifier-e9d72",
-    storageBucket: "color-classifier-e9d72.appspot.com",
-    messagingSenderId: "297469815956",
-    appId: "1:297469815956:web:6e80e2841bd24dc3239881",
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  myDB = firebase.database();
-}
-
-//!
 async function setup() {
+  await getData();
+  setupGrid();
   var canvas = createCanvas(800, 400);
   canvas.parent("sketchBox");
-  await getData();
-
-  setupGrid();
 }
-
-//!
-function draw() {}
 
 const setupGrid = () => {
   for (let col = 0; col < resolution; col++) {
@@ -59,7 +36,7 @@ const gotData = (results) => {
     retrievedData.push(data[key]);
   }
   let colorArr = [...retrievedData];
-  console.log(colorArr.length);
+  console.log(Math.ceil(sqrt(colorArr.length)));
 
   for (let j = 0; j < resolution * resolution; j++) {
     fill(colorArr[j].r, colorArr[j].g, colorArr[j].b);
