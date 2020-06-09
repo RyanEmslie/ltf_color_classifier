@@ -64,3 +64,7 @@ button.grey {
 ul li {
   display: inline;
 }
+
+button#createJSON {
+  width: auto;
+}

@@ -1,22 +1,4 @@
-// let myDB;
-// let authPromise;
-let ready = true;
-
-//!
-// function preload() {
-//   var firebaseConfig = {
-//     apiKey: "AIzaSyBItUIaPm0UGDGkn-ZuyyzaJPxM0XigaSg",
-//     authDomain: "color-classifier-e9d72.firebaseapp.com",
-//     databaseURL: "https://color-classifier-e9d72.firebaseio.com",
-//     projectId: "color-classifier-e9d72",
-//     storageBucket: "color-classifier-e9d72.appspot.com",
-//     messagingSenderId: "297469815956",
-//     appId: "1:297469815956:web:6e80e2841bd24dc3239881",
-//   };
-//   // Initialize Firebase
-//   firebase.initializeApp(firebaseConfig);
-//   myDB = firebase.database();
-// }
+// Promise to setTimeout after data is saved
 const myPromise = () => {
   return new Promise(function (resolve, reject) {
     redraw();
@@ -30,12 +12,9 @@ function setup() {
   newColors();
 }
 
-//!
 function draw() {
-  if (ready == true) {
-    fill(r, g, b);
-    rect(width / 2 - 100, height / 2 - 100, 200, 200);
-  }
+  fill(r, g, b);
+  rect(width / 2 - 100, height / 2 - 100, 200, 200);
 }
 
 const sendData = async (e) => {
@@ -66,10 +45,6 @@ const newColors = async () => {
   r = Math.floor(random(0, 256));
   g = Math.floor(random(0, 256));
   b = Math.floor(random(0, 256));
-};
-
-const toggleState = () => {
-  !ready ? (ready = true) : (ready = false);
 };
 
 const toggleClass = () => {
