@@ -1,4 +1,4 @@
-//!
+// Promise to setTimeout after data is saved
 const myPromise = () => {
   return new Promise(function (resolve, reject) {
     redraw();
@@ -12,7 +12,6 @@ function setup() {
   newColors();
 }
 
-//!
 function draw() {
   fill(r, g, b);
   rect(width / 2 - 100, height / 2 - 100, 200, 200);

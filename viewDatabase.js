@@ -55,9 +55,6 @@ const gotData = (results) => {
 
 // Draw grid with color information
 const sendData = (event) => {
-  let r = 0;
-  let g = 0;
-  let b = 0;
   let value = event.target.value;
   let colorArr = [...retrievedData].filter((x) => x.label == value);
   resolution = Math.floor(sqrt(colorArr.length));
@@ -67,19 +64,32 @@ const sendData = (event) => {
     fill(colorArr[j].r, colorArr[j].g, colorArr[j].b);
     rect(rowArr[j], colArr[j], mappedRes, mappedRes);
   }
+  showAvgColor(colorArr, value);
+};
 
-  let avgColor = [...colorArr].forEach((x) => {
+// Calculate and display average color of selected color label
+const showAvgColor = (arr, value) => {
+  let r = 0;
+  let g = 0;
+  let b = 0;
+  let avgColor = [...arr].forEach((x) => {
     r = r + x.r;
     g = g + x.g;
     b = b + x.b;
   });
+  let newR = Math.floor(r / (resolution * resolution));
+  let newG = Math.floor(g / (resolution * resolution));
+  let newB = Math.floor(b / (resolution * resolution));
   document.getElementById(
     "infoMessage"
-  ).innerText = `Total Colors: ${retrievedData.length} --- ${value}: ${colorArr.length}`;
-
-  let newR = Math.floor((r / resolution) * resolution);
-  let newG = Math.floor((g / resolution) * resolution);
-  let newB = Math.floor((b / resolution) * resolution);
-
+  ).innerText = `Total Colors: ${retrievedData.length} --- ${value}: ${arr.length}`;
   document.getElementById("avgColor").style.backgroundColor = `rgb(${newR},${newG},${newB})`;
+};
+
+const createJSON = () => {
+  let allData = {
+    entries: [...retrievedData],
+  };
+
+  saveJSON(allData, "colorData");
 };
