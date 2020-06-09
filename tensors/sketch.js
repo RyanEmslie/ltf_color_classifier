@@ -1,4 +1,5 @@
 let data;
+let model;
 
 let labelList = [
   "red-ish",
@@ -27,10 +28,32 @@ function setup() {
   });
   let inputs = tf.tensor2d(colors);
   let labelsTensor = tf.tensor1d(labels, "int32");
+  let outputs = tf.oneHot(labelsTensor, 9);
   labelsTensor.dispose();
-  let outputs = tf.oneHot(labels, 9);
+
   console.log(inputs.shape);
-  inputs.print();
   console.log(outputs.shape);
-  outputs.print();
+
+  // Construct model
+  model = tf.sequential();
+
+  let hidden = tf.layers.dense({
+    units: 16,
+    activation: "sigmoid",
+    inputShape: [3],
+  });
+  let output = tf.layers.dense({
+    units: 9,
+    activation: "sigmoid",
+  });
+  model.add(hidden);
+  model.add(output);
+
+  const lr = 0.2;
+  const optimizer = tf.train.sgd(lr);
+
+  model.compile({
+    optimizer: optimizer,
+    loss: "categoricalCrossentropy",
+  });
 }
