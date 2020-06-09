@@ -63,6 +63,10 @@ const sendData = (event) => {
   resolution = Math.floor(sqrt(colorArr.length));
   mappedRes = height / resolution;
   setupGrid();
+  for (let j = 0; j < resolution * resolution; j++) {
+    fill(colorArr[j].r, colorArr[j].g, colorArr[j].b);
+    rect(rowArr[j], colArr[j], mappedRes, mappedRes);
+  }
 
   let avgColor = [...colorArr].forEach((x) => {
     r = r + x.r;
@@ -72,10 +76,7 @@ const sendData = (event) => {
   document.getElementById(
     "infoMessage"
   ).innerText = `Total Colors: ${retrievedData.length} --- ${value}: ${colorArr.length}`;
-  for (let j = 0; j < resolution * resolution; j++) {
-    fill(colorArr[j].r, colorArr[j].g, colorArr[j].b);
-    rect(rowArr[j], colArr[j], mappedRes, mappedRes);
-  }
+
   let newR = Math.floor((r / resolution) * resolution);
   let newG = Math.floor((g / resolution) * resolution);
   let newB = Math.floor((b / resolution) * resolution);
