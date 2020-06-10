@@ -37,6 +37,7 @@ function setup() {
   // Construct model
   model = tf.sequential();
 
+  // Used inputShape instead of inputDim
   let hidden = tf.layers.dense({
     units: 16,
     activation: "sigmoid",
@@ -56,4 +57,9 @@ function setup() {
     optimizer: optimizer,
     loss: "categoricalCrossentropy",
   });
+
+  // validation split, percentage to use a training
+  let config = { epochs: 10, validationSplit: 0.1, shuffle: true };
+  // model.fit returns a promise
+  model.fit(inputs, outputs, config).then((results) => console.log(results.history.loss));
 }
