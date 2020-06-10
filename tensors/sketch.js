@@ -1,5 +1,7 @@
 let data;
 let model;
+let inputs;
+let outputs;
 
 let labelList = [
   "red-ish",
@@ -18,6 +20,10 @@ function preload() {
 }
 
 function setup() {
+  var canvas = createCanvas(400, 400);
+  canvas.parent("sketchBox");
+  console.log("setup");
+
   let colors = [];
   let labels = [];
   data.entries.forEach((record) => {
@@ -26,9 +32,9 @@ function setup() {
     // Labels are recorded as the index number of sabelList
     labels.push(labelList.indexOf(record.label));
   });
-  let inputs = tf.tensor2d(colors);
+  inputs = tf.tensor2d(colors);
   let labelsTensor = tf.tensor1d(labels, "int32");
-  let outputs = tf.oneHot(labelsTensor, 9);
+  outputs = tf.oneHot(labelsTensor, 9);
   labelsTensor.dispose();
 
   console.log(inputs.shape);
@@ -57,9 +63,36 @@ function setup() {
     optimizer: optimizer,
     loss: "categoricalCrossentropy",
   });
+  train().then((results) => console.log(results.history.loss));
+}
 
+async function train() {
   // validation split, percentage to use a training
-  let config = { epochs: 10, validationSplit: 0.1, shuffle: true };
+  // callback functions allow operations during training
+  let config = {
+    epochs: 10,
+    validationSplit: 0.1,
+    shuffle: true,
+    callbacks: {
+      onTrainBegin: () => console.log("Begin Training"),
+      onTrainEnd: () => console.log("End Training"),
+      onBatchEnd: async (num, logs) => {
+        await tf.nextFrame();
+      },
+      onEpochEnd: (num, logs) => {
+        console.log(`Epochs: ${num}`);
+        console.log(`Loss: ${logs.loss}`);
+      },
+    },
+  };
+
   // model.fit returns a promise
-  model.fit(inputs, outputs, config).then((results) => console.log(results.history.loss));
+  return await model.fit(inputs, outputs, config);
+}
+
+function draw() {
+  background(0);
+  stroke(255);
+  strokeWeight(4);
+  line(frameCount % width, 0, frameCount % width, height);
 }
