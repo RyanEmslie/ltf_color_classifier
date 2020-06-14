@@ -2,7 +2,7 @@
 const myPromise = () => {
   return new Promise(function (resolve, reject) {
     redraw();
-    setTimeout(resolve, 1500);
+    setTimeout(resolve, 750);
   });
 };
 
