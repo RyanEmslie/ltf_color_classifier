@@ -2,6 +2,7 @@ let data;
 let model;
 let inputs;
 let outputs;
+let graphLabel;
 
 let labelList = [
   "red-ish",
@@ -22,7 +23,10 @@ function preload() {
 function setup() {
   var canvas = createCanvas(400, 400);
   canvas.parent("sketchBox");
-  console.log("setup");
+
+  rSlider = createSlider(0, 255, 255);
+  gSlider = createSlider(0, 255, 255);
+  bSlider = createSlider(0, 255, 0);
 
   let colors = [];
   let labels = [];
@@ -37,9 +41,6 @@ function setup() {
   outputs = tf.oneHot(labelsTensor, 9);
   labelsTensor.dispose();
 
-  console.log(inputs.shape);
-  console.log(outputs.shape);
-
   // Construct model
   model = tf.sequential();
 
@@ -51,7 +52,7 @@ function setup() {
   });
   let output = tf.layers.dense({
     units: 9,
-    activation: "sigmoid",
+    activation: "softmax",
   });
   model.add(hidden);
   model.add(output);
@@ -63,25 +64,23 @@ function setup() {
     optimizer: optimizer,
     loss: "categoricalCrossentropy",
   });
-  train().then((results) => console.log(results.history.loss));
+  train().then((results) => console.log(results));
 }
 
 async function train() {
   // validation split, percentage to use a training
   // callback functions allow operations during training
   let config = {
-    epochs: 10,
+    epochs: 100,
     validationSplit: 0.1,
     shuffle: true,
     callbacks: {
       onTrainBegin: () => console.log("Begin Training"),
       onTrainEnd: () => console.log("End Training"),
-      onBatchEnd: async (num, logs) => {
-        await tf.nextFrame();
-      },
+      onBatchEnd: tf.nextFrame,
       onEpochEnd: (num, logs) => {
-        console.log(`Epochs: ${num}`);
-        console.log(`Loss: ${logs.loss}`);
+        // console.log(`Epochs: ${num}`);
+        // console.log(`Loss: ${logs.loss}`);
       },
     },
   };
@@ -91,8 +90,25 @@ async function train() {
 }
 
 function draw() {
-  background(0);
-  stroke(255);
-  strokeWeight(4);
-  line(frameCount % width, 0, frameCount % width, height);
+  let r = rSlider.value();
+  let g = gSlider.value();
+  let b = bSlider.value();
+  background(r, g, b);
+  fill(0);
+  textSize(35);
+  text(graphLabel, width / 2 + 0.5, height / 2);
+
+  tf.tidy(() => {
+    const xs = tf.tensor2d([[r / 255, g / 255, b / 255]]);
+
+    let results = model.predict(xs);
+    let index = results.argMax(1).dataSync();
+    // console.log(labelList[index[0]]);
+    graphLabel = labelList[index[0]];
+    // console.log(index);
+
+    // stroke(255);
+    // strokeWeight(4);
+    // line(frameCount % width, 0, frameCount % width, height);
+  });
 }
